@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e9ecef">
+  <meta name="description" content="FathomSplat predicts cameras, a medium-free 3D Gaussian scene, and per-view water parameters from sparse underwater images in one forward pass.">
+  <meta name="author" content="Anonymous Submission">
+  <title>FathomSplat: Physics-Guided Feed-Forward 3D Gaussian Splatting for Underwater Reconstruction</title>
+  <script>
+    (function () {
+      var theme = "light";
+      try {
+        theme = localStorage.getItem("fathomsplat-theme") ||
+          (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      } catch (error) {}
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="modulepreload" href="static/vendor/three/three.module.min.js">
+  <script defer src="static/js/main.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./static/vendor/three/three.module.min.js",
+        "three/addons/": "./static/vendor/three/addons/"
+      }
+    }
+  </script>
+  <script type="module" src="static/js/pointcloud-viewer.js?v=3"></script>
+</head>
+
+<body>
+  <a class="skip-link" href="#overview">Skip to content</a>
+
+  <header class="hero" id="top">
+    <nav class="site-nav page-shell" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="FathomSplat home">
+        <span class="brand-mark" aria-hidden="true">F</span>
+        <span>FathomSplat</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
+
+      <div class="nav-links" id="nav-links">
+        <a href="#overview">Overview</a>
+        <a href="#method">Method</a>
+        <a href="#interactive">3D</a>
+        <a href="#results">Results</a>
+        <a href="#citation">Citation</a>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false" title="Toggle page theme">
+          <span class="theme-icon theme-icon-sun" aria-hidden="true">☀</span>
+          <span class="theme-icon theme-icon-moon" aria-hidden="true">◐</span>
+        </button>
+      </div>
+    </nav>
+
+    <div class="hero-content page-shell reveal">
+      <p class="eyebrow">AAAI 2027 submission · Interactive project page</p>
+      <h1><span class="title-accent">Fathom</span>Splat: Physics-Guided Feed-Forward 3D Gaussian Splatting for Underwater Reconstruction</h1>
+      <p class="venue">AAAI 2027</p>
+
+      <div class="author-block">
+        <p class="authors">Anonymous Submission</p>
+        <p class="affiliations">Affiliations will be added after the review period.</p>
+      </div>
+
+      <p class="hero-summary">From sparse, unposed underwater images to a medium-free 3D Gaussian scene—in a single forward pass.</p>
+      <div class="hero-badges" aria-label="Key properties">
+        <span>No COLMAP</span>
+        <span>No test-time optimization</span>
+        <span>Explicit water physics</span>
+        <span>Medium-free novel views</span>
+      </div>
+
+      <div class="action-row" aria-label="Project links">
+        <a class="action-button" href="static/docs/paper.pdf">
+          <span class="button-icon" aria-hidden="true">▤</span>
+          Draft PDF
+        </a>
+        <a class="action-button is-unavailable" href="#" aria-disabled="true" data-unavailable="Code link will be added when the repository is public.">
+          <span class="button-icon" aria-hidden="true">&lt;/&gt;</span>
+          Code
+        </a>
+        <a class="action-button is-unavailable" href="#" aria-disabled="true" data-unavailable="Model weights will be released later.">
+          <span class="button-icon" aria-hidden="true">◇</span>
+          Models
+        </a>
+        <a class="action-button is-unavailable" href="#" aria-disabled="true" data-unavailable="The interactive demo is being prepared.">
+          <span class="button-icon" aria-hidden="true">▶</span>
+          Demo
+        </a>
+      </div>
+
+      <p class="link-status" id="link-status" role="status" aria-live="polite"></p>
+    </div>
+  </header>
+
+  <main>
+    <section class="section section-first" id="interactive" aria-labelledby="interactive-heading">
+      <div class="wide-shell reveal">
+        <div class="gallery-intro">
+          <div>
+            <p class="section-label">Interactive preview</p>
+            <h2 id="interactive-heading">Explore both reconstruction sets</h2>
+            <p class="lead">FathomSplat and AnySplat are kept as two separate collections. Choose a model, then slide through its PLY scenes below.</p>
+          </div>
+          <div>
+            <div class="interaction-legend" aria-label="Viewer controls">
+              <span><b>Drag</b> orbit</span>
+              <span><b>Scroll</b> zoom</span>
+              <span><b>Right-drag</b> pan</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pointcloud-gallery" data-pc-gallery data-manifest="static/data/pointcloud-gallery.json?v=2">
+          <div class="gallery-collections" data-gallery-collections role="tablist" aria-label="Choose reconstruction model"></div>
+
+          <article class="pointcloud-card pointcloud-card-gallery">
+            <div class="pointcloud-card-heading">
+              <div>
+                <span class="pointcloud-kicker" data-gallery-counter>Scene — / —</span>
+                <h3 data-gallery-title>Preparing gallery</h3>
+              </div>
+              <span class="pointcloud-status" data-gallery-status>Loading</span>
+            </div>
+
+            <div class="pc-viewer pc-viewer-gallery" data-name="Interactive 3D reconstruction" tabindex="0">
+              <div class="pc-canvas"></div>
+              <div class="pc-loading" role="status" aria-live="polite"><span class="pc-loading-mark" aria-hidden="true"></span><strong>Preparing 3D gallery</strong><small>Loading scene list</small></div>
+              <span class="pc-badge">3D</span>
+              <div class="pc-actions">
+                <button type="button" data-pc-background aria-label="Switch this viewer to a light background" title="Toggle viewer background">◒</button>
+                <button type="button" data-pc-reset aria-label="Reset 3D view" title="Reset view">↺</button>
+              </div>
+              <span class="pc-hint">drag · scroll · right-drag</span>
+            </div>
+            <p class="pointcloud-caption" data-gallery-caption>Loading the first lightweight PLY preview.</p>
+          </article>
+
+          <div class="gallery-navigation" aria-label="3D scene navigation">
+            <button class="gallery-arrow" type="button" data-gallery-previous aria-label="Show previous scene">←</button>
+            <div class="gallery-strip" data-gallery-strip role="listbox" aria-label="Choose a 3D reconstruction scene" tabindex="0"></div>
+            <button class="gallery-arrow" type="button" data-gallery-next aria-label="Show next scene">→</button>
+          </div>
+
+          <p class="interactive-disclosure"><strong>Verified sources.</strong> FathomSplat loads only from <code>asset/Fathomsplat/ply</code>; AnySplat loads only from <code>asset/anysplat/ply</code>, which matches <code>3d_result/normal/ply</code>. Nothing in <code>3d_result/page</code> is used.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="overview" aria-labelledby="overview-heading">
+      <div class="content-shell reveal">
+        <div class="section-heading">
+          <p class="section-label">Overview</p>
+          <h2 id="overview-heading">TL;DR</h2>
+        </div>
+
+        <p class="lead">
+          <strong>FathomSplat</strong> jointly predicts cameras, a medium-free 3D Gaussian scene, and per-view water parameters from sparse, unposed underwater images—in one feed-forward pass.
+        </p>
+
+        <figure class="teaser-frame">
+          <img src="static/images/teaser-paper-final.webp" width="1134" height="728" alt="Three sparse underwater robot views are reconstructed into a coral 3D Gaussian scene in under 0.2 seconds.">
+          <figcaption>
+            FathomSplat is the first feed-forward underwater 3DGS model and runs in under 0.2 seconds with three input views.
+          </figcaption>
+        </figure>
+
+        <p>
+          A differentiable rewatering operator explains attenuation and backscatter in the observation domain during training. At inference, the operator is bypassed and the recovered medium-free Gaussian scene is rendered directly—without structure-from-motion or scene-specific optimization.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section-tinted" id="abstract" aria-labelledby="abstract-heading">
+      <div class="content-shell reveal">
+        <div class="section-heading">
+          <p class="section-label">Paper</p>
+          <h2 id="abstract-heading">Abstract</h2>
+        </div>
+
+        <p>
+          Underwater 3D Gaussian splatting can explicitly model attenuation and backscatter, but existing approaches typically rely on structure-from-motion initialization and costly per-scene optimization. Feed-forward reconstruction removes that test-time cost, yet clear-air image formation cannot explain wavelength-dependent attenuation or backscatter, causing medium effects to contaminate scene appearance and geometry.
+        </p>
+        <p>
+          FathomSplat is a physics-guided feed-forward framework that jointly predicts camera parameters, a medium-free 3D Gaussian representation, and per-view medium parameters from sparse, unposed underwater images. Its differentiable rewatering operator maps medium-free renderings back into the observation domain and regularizes the ambiguous decomposition of scene structure and water effects. Paired synthetic supervision and real-data adaptation enable direct medium-free rendering without structure-from-motion or scene-specific optimization.
+        </p>
+        <p class="result-highlight-inline">
+          <strong>Held-out FLSea · 16 input views:</strong> 21.92 dB PSNR · 0.616 SSIM · 0.297 LPIPS · 0.20 s.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="method" aria-labelledby="method-heading">
+      <div class="content-shell reveal">
+        <div class="section-heading">
+          <p class="section-label">Architecture</p>
+          <h2 id="method-heading">Physics-Guided Decomposition</h2>
+        </div>
+
+        <figure class="method-figure">
+          <img src="static/images/method-paper-final.webp" width="1968" height="675" alt="FathomSplat framework with a geometry transformer, Gaussian, camera and depth heads, differentiable voxel fusion, Water Head, and differentiable rewatering.">
+          <figcaption>A single forward pass predicts cameras, a medium-free 3D Gaussian scene, and per-view water parameters. Rewatering maps the clean render back to the underwater observation domain during training.</figcaption>
+        </figure>
+
+        <div class="method-summary-grid">
+          <article>
+            <span>Scene pathway</span>
+            <h3>Geometry and medium-free Gaussians</h3>
+            <p>The shared geometry transformer predicts camera, depth, and Gaussian features; differentiable voxel fusion combines cross-view primitives into one renderable scene.</p>
+          </article>
+          <article>
+            <span>Water pathway</span>
+            <h3>Per-view physical parameters</h3>
+            <p>The Water Head combines observed RGB and predicted depth to estimate attenuation, backscatter, and veiling light used by differentiable rewatering.</p>
+          </article>
+        </div>
+
+        <div class="equation-card">
+          <p class="equation-label">Underwater image formation</p>
+          <p class="equation" aria-label="I sub c equals J sub c times exponential negative beta D sub c z plus B infinity sub c times one minus exponential negative beta B sub c z">
+            I<sub>c</sub> = J<sub>c</sub> exp(−β<sup>D</sup><sub>c</sub>z) + B<sup>∞</sup><sub>c</sub>(1 − exp(−β<sup>B</sup><sub>c</sub>z))
+          </p>
+          <p>
+            The model explains each observed color channel through medium-free radiance, depth-dependent direct attenuation, and backscatter. At test time, the medium operator is omitted to render the medium-free Gaussian scene.
+          </p>
+        </div>
+
+        <div class="contribution-grid">
+          <article class="contribution-card">
+            <span>01</span>
+            <h3>Medium-aware feed-forward 3DGS</h3>
+            <p>Reconstructs sparse underwater views without per-scene optimization or structure-from-motion at inference, across scenes and water conditions.</p>
+          </article>
+          <article class="contribution-card">
+            <span>02</span>
+            <h3>Medium–scene factorization</h3>
+            <p>Couples a medium-free Gaussian representation and predicted water parameters through a differentiable image-formation operator.</p>
+          </article>
+          <article class="contribution-card">
+            <span>03</span>
+            <h3>Paired-to-real training</h3>
+            <p>Constrains clean appearance, rewatered observations, medium parameters, and geometry, then adapts with relative-geometry supervision and synthetic replay.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tinted" id="reconstructions" aria-labelledby="reconstructions-heading">
+      <div class="wide-shell reveal">
+        <div class="content-shell section-heading-wrap">
+          <div class="section-heading">
+            <div>
+              <p class="section-label">3D result slots</p>
+              <h2 id="reconstructions-heading">Compare geometry from the same view</h2>
+            </div>
+          </div>
+          <p>These synchronized viewers reserve the comparisons that best support the paper: explicit scene–medium factorization and reconstruction quality as the number of context views increases. Drag any viewer inside a row to move the others with it.</p>
+        </div>
+
+        <div class="viewer-group-heading">
+          <div>
+            <span>Medium–scene factorization</span>
+            <h3>What changes when the water is removed?</h3>
+          </div>
+          <p>Matched FathomSplat outputs show the same reconstruction as a medium-free scene and after underwater effects are applied. The paired PLY viewers share one camera.</p>
+        </div>
+
+        <div class="dewater-gallery" data-dewater-gallery data-manifest="static/data/dewatering-gallery.json?v=2">
+          <div class="dewater-active-heading">
+            <div>
+              <span data-dewater-counter>Pair — / —</span>
+              <h4 data-dewater-title>Preparing water-removal comparison</h4>
+            </div>
+            <span class="dewater-budget" data-dewater-detail>Matched pair</span>
+          </div>
+
+          <div class="dewater-video-grid">
+            <article class="dewater-video-card dewater-card-clear">
+              <div><span>Water removed</span><strong>Medium-free rendering</strong></div>
+              <video data-dewater-video="mediumFree" autoplay muted loop playsinline controls preload="metadata" aria-label="Medium-free FathomSplat rendering"></video>
+            </article>
+            <article class="dewater-video-card">
+              <div><span>Water applied</span><strong>Underwater-baked rendering</strong></div>
+              <video data-dewater-video="underwaterBaked" autoplay muted loop playsinline controls preload="metadata" aria-label="Underwater-baked FathomSplat rendering"></video>
+            </article>
+          </div>
+
+          <div class="dewater-ply-grid">
+            <article class="pointcloud-card pointcloud-card-ours">
+              <div class="pointcloud-card-heading">
+                <div><span class="pointcloud-kicker">Water removed</span><h3>Medium-free PLY</h3></div>
+                <span class="pointcloud-status" data-dewater-status="mediumFree">Loading</span>
+              </div>
+              <div class="pc-viewer is-light" data-dewater-viewer="mediumFree" data-name="Medium-free FathomSplat reconstruction">
+                <div class="pc-canvas"></div>
+                <div class="pc-loading" role="status"><span class="pc-loading-mark" aria-hidden="true"></span><strong>Loading medium-free cloud</strong><small>Preparing PLY</small></div>
+                <span class="pc-badge">Medium-free</span>
+                <div class="pc-actions"><button type="button" data-pc-background aria-label="Switch this viewer to a dark background" title="Toggle viewer background">◒</button><button type="button" data-pc-reset aria-label="Reset 3D view" title="Reset view">↺</button></div>
+                <span class="pc-hint">linked camera</span>
+              </div>
+              <p class="pointcloud-caption">Scene appearance with the medium operator bypassed.</p>
+            </article>
+
+            <article class="pointcloud-card">
+              <div class="pointcloud-card-heading">
+                <div><span class="pointcloud-kicker">Water applied</span><h3>Underwater-baked PLY</h3></div>
+                <span class="pointcloud-status" data-dewater-status="underwaterBaked">Loading</span>
+              </div>
+              <div class="pc-viewer is-light" data-dewater-viewer="underwaterBaked" data-name="Underwater-baked FathomSplat reconstruction">
+                <div class="pc-canvas"></div>
+                <div class="pc-loading" role="status"><span class="pc-loading-mark" aria-hidden="true"></span><strong>Loading underwater-baked cloud</strong><small>Preparing PLY</small></div>
+                <span class="pc-badge">Water applied</span>
+                <div class="pc-actions"><button type="button" data-pc-background aria-label="Switch this viewer to a dark background" title="Toggle viewer background">◒</button><button type="button" data-pc-reset aria-label="Reset 3D view" title="Reset view">↺</button></div>
+                <span class="pc-hint">linked camera</span>
+              </div>
+              <p class="pointcloud-caption">The same scene after the predicted water medium is applied.</p>
+            </article>
+          </div>
+
+          <div class="dewater-navigation" aria-label="Water-removal comparison scene navigation">
+            <button class="gallery-arrow" type="button" data-dewater-previous aria-label="Show previous water-removal pair">←</button>
+            <div class="dewater-strip" data-dewater-strip role="listbox" aria-label="Choose a water-removal comparison scene" tabindex="0"></div>
+            <button class="gallery-arrow" type="button" data-dewater-next aria-label="Show next water-removal pair">→</button>
+          </div>
+
+          <p class="dewater-note"><strong>Five matched pairs.</strong> Three 16-view results appear first, followed by two 2-view scenes. The additional 16-view export is retained for a fuller visual showcase; incomplete folders are omitted.</p>
+        </div>
+
+        <div class="viewer-group-heading viewer-group-heading-spaced">
+          <div>
+            <span>Sparse-view scaling</span>
+            <h3>How does coverage grow with more context?</h3>
+          </div>
+          <p>Future replacement: one held-out FLSea scene reconstructed from 3, 16, and 64 context views using the same frozen checkpoint.</p>
+        </div>
+
+        <div class="pointcloud-grid pointcloud-grid-three">
+          <article class="pointcloud-card">
+            <div class="pointcloud-card-heading"><div><span class="pointcloud-kicker">Sparse input</span><h3>3 context views</h3></div><span class="pointcloud-status">Mock</span></div>
+            <div class="pc-viewer" data-ply="static/models/pointclouds/budget_003_placeholder.ply" data-name="Three-view reconstruction" data-sync="view-budget"><div class="pc-canvas"></div><div class="pc-loading" role="status"><span class="pc-loading-mark" aria-hidden="true"></span><strong>Loading illustrative cloud</strong><small>budget_003_placeholder.ply</small></div><span class="pc-badge">3 views</span><div class="pc-actions"><button type="button" data-pc-background aria-label="Switch this viewer to a light background" title="Toggle viewer background">◒</button><button type="button" data-pc-reset aria-label="Reset 3D view" title="Reset view">↺</button></div><span class="pc-hint">linked camera</span></div>
+            <p class="pointcloud-caption">Sparse coverage and deliberate holes indicate the limited-view slot.</p>
+          </article>
+          <article class="pointcloud-card">
+            <div class="pointcloud-card-heading"><div><span class="pointcloud-kicker">Mid-range input</span><h3>16 context views</h3></div><span class="pointcloud-status">Mock</span></div>
+            <div class="pc-viewer" data-ply="static/models/pointclouds/budget_016_placeholder.ply" data-name="Sixteen-view reconstruction" data-sync="view-budget"><div class="pc-canvas"></div><div class="pc-loading" role="status"><span class="pc-loading-mark" aria-hidden="true"></span><strong>Loading illustrative cloud</strong><small>budget_016_placeholder.ply</small></div><span class="pc-badge">16 views</span><div class="pc-actions"><button type="button" data-pc-background aria-label="Switch this viewer to a light background" title="Toggle viewer background">◒</button><button type="button" data-pc-reset aria-label="Reset 3D view" title="Reset view">↺</button></div><span class="pc-hint">linked camera</span></div>
+            <p class="pointcloud-caption">Intermediate coverage reserves the paper’s practical operating point.</p>
+          </article>
+          <article class="pointcloud-card pointcloud-card-ours">
+            <div class="pointcloud-card-heading"><div><span class="pointcloud-kicker">Dense input</span><h3>64 context views</h3></div><span class="pointcloud-status">Mock</span></div>
+            <div class="pc-viewer" data-ply="static/models/pointclouds/budget_064_placeholder.ply" data-name="Sixty-four-view reconstruction" data-sync="view-budget"><div class="pc-canvas"></div><div class="pc-loading" role="status"><span class="pc-loading-mark" aria-hidden="true"></span><strong>Loading illustrative cloud</strong><small>budget_064_placeholder.ply</small></div><span class="pc-badge">64 views</span><div class="pc-actions"><button type="button" data-pc-background aria-label="Switch this viewer to a light background" title="Toggle viewer background">◒</button><button type="button" data-pc-reset aria-label="Reset 3D view" title="Reset view">↺</button></div><span class="pc-hint">linked camera</span></div>
+            <p class="pointcloud-caption">The densest mock cloud demonstrates the final high-coverage slot.</p>
+          </article>
+        </div>
+
+        <p class="interactive-disclosure"><strong>Data status:</strong> the five water-removal pairs above are real FathomSplat outputs from <code>3d_result_paper_view</code>. The 3 / 16 / 64 context-view row remains an interface example until matched scaling results are supplied.</p>
+      </div>
+    </section>
+
+    <section class="section" id="results" aria-labelledby="results-heading">
+      <div class="wide-shell reveal">
+        <div class="content-shell section-heading-wrap">
+          <div class="section-heading">
+            <p class="section-label">Evaluation</p>
+            <h2 id="results-heading">Results and comparisons</h2>
+          </div>
+          <p>
+            Quantitative evaluation uses one frozen checkpoint on scene-level held-out synthetic, FLSea, and BlueROV sequences, with no test-scene fine-tuning. The comparison slots remain intentionally blank until the matched evaluation is complete.
+          </p>
+        </div>
+
+        <div class="comparison-scroll" tabindex="0" aria-label="Planned comparison videos; scroll horizontally on small screens">
+          <div class="comparison-grid" data-sync-group="main-comparison">
+            <article class="comparison-item">
+              <h3>Observed target</h3>
+              <div class="result-placeholder result-input"><span>Reference view</span></div>
+            </article>
+            <article class="comparison-item">
+              <h3>3DGS + COLMAP</h3>
+              <div class="result-placeholder result-direct"><span>Per-scene</span></div>
+            </article>
+            <article class="comparison-item">
+              <h3>SeaSplat</h3>
+              <div class="result-placeholder result-ablation"><span>Per-scene</span></div>
+            </article>
+            <article class="comparison-item">
+              <h3>AnySplat</h3>
+              <div class="result-placeholder result-ablation"><span>Feed-forward</span></div>
+            </article>
+            <article class="comparison-item comparison-ours">
+              <h3>FathomSplat (Ours)</h3>
+              <div class="result-placeholder result-ours"><span>Feed-forward</span></div>
+            </article>
+            <article class="comparison-item">
+              <h3>Depth / geometry</h3>
+              <div class="result-placeholder result-depth"><span>Predicted view</span></div>
+            </article>
+          </div>
+        </div>
+
+        <div class="content-shell">
+          <div class="metric-grid">
+            <article class="metric-card">
+              <p class="metric-name">Underwater novel views</p>
+              <p class="metric-value">PSNR · SSIM · LPIPS</p>
+              <p>Held-out target views across 3, 6, 16, 32, 48, and 64 context images.</p>
+            </article>
+            <article class="metric-card">
+              <p class="metric-name">Camera pose</p>
+              <p class="metric-value">AUC @ 5° · 10° · 20° · 30°</p>
+              <p>Relative pose accuracy on held-out FLSea and synthetic scenes.</p>
+            </article>
+            <article class="metric-card">
+              <p class="metric-name">Relative geometry</p>
+              <p class="metric-value">AbsRel · δ<sub>1</sub></p>
+              <p>Median-scaled depth quality for a fair feed-forward comparison.</p>
+            </article>
+            <article class="metric-card">
+              <p class="metric-name">Metric geometry</p>
+              <p class="metric-value">AbsRel · scale error</p>
+              <p>Metric depth and scale without evaluator-side scale correction.</p>
+            </article>
+            <article class="metric-card">
+              <p class="metric-name">Physics decomposition</p>
+              <p class="metric-value">Clean NVS · medium MAE</p>
+              <p>Paired synthetic targets isolate scene–medium factorization.</p>
+            </article>
+            <article class="metric-card">
+              <p class="metric-name">Efficiency</p>
+              <p class="metric-value">Runtime · memory · SfM</p>
+              <p>One forward pass versus COLMAP plus per-scene optimization.</p>
+            </article>
+          </div>
+
+          <div class="result-note">
+            <strong>Evaluation protocol.</strong>
+            <span>TartanAir and Hypersim provide paired synthetic supervision; FLSea is the primary public real benchmark, with held-out BlueROV sequences for deployment and metric-sensor evaluation. All splits are scene-level.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="citation" aria-labelledby="citation-heading">
+      <div class="content-shell reveal">
+        <div class="section-heading citation-heading-row">
+          <div>
+            <p class="section-label">Reference</p>
+            <h2 id="citation-heading">Citation</h2>
+          </div>
+          <button class="copy-button" type="button" data-copy-target="bibtex">Copy BibTeX</button>
+        </div>
+
+        <pre class="citation-box" id="bibtex"><code>@misc{anonymous2027fathomsplat,
+  title  = {FathomSplat: Physics-Guided Feed-Forward 3D Gaussian Splatting for Underwater Reconstruction},
+  author = {Anonymous Submission},
+  year   = {2027},
+  note   = {Manuscript under review}
+}</code></pre>
+        <p class="draft-note">Replace this entry with the final author list, publication type, venue, and URL before release.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="content-shell footer-content">
+      <p>© <span id="current-year">2027</span> FathomSplat authors.</p>
+      <p>Original FathomSplat layout with an independently implemented point-cloud interaction pattern inspired by <a href="https://haofeixu.github.io/pointdit/" target="_blank" rel="noreferrer">PointDiT</a>.</p>
+    </div>
+  </footer>
+</body>
+</html>

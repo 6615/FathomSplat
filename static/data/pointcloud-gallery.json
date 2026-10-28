@@ -1,0 +1,289 @@
+{
+  "version": 2,
+  "collections": [
+    {
+      "id": "fathomsplat",
+      "label": "FathomSplat",
+      "scenes": [
+        {
+          "id": "66-32",
+          "title": "Scene 66 \u00b7 32 views",
+          "detail": "FathomSplat reconstruction",
+          "cover": "static/images/gallery/fathomsplat--66-32.jpg",
+          "rotation": [
+            180,
+            0,
+            0
+          ],
+          "model": {
+            "id": "fathomsplat",
+            "label": "FathomSplat",
+            "ply": "static/models/gallery/fathomsplat--66-32.ply",
+            "points": 250000
+          }
+        },
+        {
+          "id": "234-32",
+          "title": "Scene 234 \u00b7 32 views",
+          "detail": "FathomSplat reconstruction",
+          "cover": "static/images/gallery/fathomsplat--234-32.jpg",
+          "rotation": [
+            180,
+            0,
+            0
+          ],
+          "model": {
+            "id": "fathomsplat",
+            "label": "FathomSplat",
+            "ply": "static/models/gallery/fathomsplat--234-32.ply",
+            "points": 250000
+          }
+        },
+        {
+          "id": "273-32",
+          "title": "Scene 273 \u00b7 32 views",
+          "detail": "FathomSplat reconstruction",
+          "cover": "static/images/gallery/fathomsplat--273-32.jpg",
+          "rotation": [
+            180,
+            0,
+            0
+          ],
+          "model": {
+            "id": "fathomsplat",
+            "label": "FathomSplat",
+            "ply": "static/models/gallery/fathomsplat--273-32.ply",
+            "points": 250000
+          }
+        },
+        {
+          "id": "32-16",
+          "title": "Scene 32 \u00b7 16 views",
+          "detail": "FathomSplat reconstruction",
+          "cover": "static/images/gallery/fathomsplat--32-16.jpg",
+          "rotation": [
+            180,
+            0,
+            0
+          ],
+          "model": {
+            "id": "fathomsplat",
+            "label": "FathomSplat",
+            "ply": "static/models/gallery/fathomsplat--32-16.ply",
+            "points": 250000
+          }
+        },
+        {
+          "id": "79-32",
+          "title": "Scene 79 \u00b7 32 views",
+          "detail": "FathomSplat reconstruction",
+          "cover": "static/images/gallery/fathomsplat--79-32.jpg",
+          "rotation": [
+            180,
+            0,
+            0
+          ],
+          "model": {
+            "id": "fathomsplat",
+            "label": "FathomSplat",
+            "ply": "static/models/gallery/fathomsplat--79-32.ply",
+            "points": 250000
+          }
+        },
+        {
+          "id": "6-2",
+          "title": "Scene 6 \u00b7 2 views",
+          "detail": "FathomSplat reconstruction",
+          "cover": "static/images/gallery/fathomsplat--6-2.jpg",
+          "rotation": [
+            180,
+            0,
+            0
+          ],
+          "model": {
+            "id": "fathomsplat",
+            "label": "FathomSplat",
+            "ply": "static/models/gallery/fathomsplat--6-2.ply",
+            "points": 250000
+          }
+        },
+        {
+          "id": "77-32",
+          "title": "Scene 77 \u00b7 32 views",
+          "detail": "FathomSplat reconstruction",
+          "cover": "static/images/gallery/fathomsplat--77-32.jpg",
+          "rotation": [
+            180,
+            0,
+            0
+          ],
+          "model": {
+            "id": "fathomsplat",
+            "label": "FathomSplat",
+            "ply": "static/models/gallery/fathomsplat--77-32.ply",
+            "points": 250000
+          }
+        },
+        {
+          "id": "frame8",
+          "title": "Frame 8",
+          "detail": "FathomSplat reconstruction",
+          "cover": "static/images/gallery/fathomsplat--frame8.jpg",
+          "rotation": [
+            180,
+            0,
+            0
+          ],
+          "model": {
+            "id": "fathomsplat",
+            "label": "FathomSplat",
+            "ply": "static/models/gallery/fathomsplat--frame8.ply",
+            "points": 250000
+          }
+        }
+      ]
+    },
+    {
+      "id": "anysplat",
+      "label": "AnySplat",
+      "scenes": [
+        {
+          "id": "66-32",
+          "title": "Scene 66 \u00b7 32 views",
+          "detail": "AnySplat reconstruction",
+          "cover": "static/images/gallery/anysplat--66-32.jpg",
+          "rotation": [
+            180,
+            0,
+            0
+          ],
+          "model": {
+            "id": "anysplat",
+            "label": "AnySplat",
+            "ply": "static/models/gallery/anysplat--66-32.ply",
+            "points": 250000
+          }
+        },
+        {
+          "id": "234-32",
+          "title": "Scene 234 \u00b7 32 views",
+          "detail": "AnySplat reconstruction",
+          "cover": "static/images/gallery/anysplat--234-32.jpg",
+          "rotation": [
+            180,
+            0,
+            0
+          ],
+          "model": {
+            "id": "anysplat",
+            "label": "AnySplat",
+            "ply": "static/models/gallery/anysplat--234-32.ply",
+            "points": 250000
+          }
+        },
+        {
+          "id": "273-32",
+          "title": "Scene 273 \u00b7 32 views",
+          "detail": "AnySplat reconstruction",
+          "cover": "static/images/gallery/anysplat--273-32.jpg",
+          "rotation": [
+            180,
+            0,
+            0
+          ],
+          "model": {
+            "id": "anysplat",
+            "label": "AnySplat",
+            "ply": "static/models/gallery/anysplat--273-32.ply",
+            "points": 250000
+          }
+        },
+        {
+          "id": "32-16",
+          "title": "Scene 32 \u00b7 16 views",
+          "detail": "AnySplat reconstruction",
+          "cover": "static/images/gallery/anysplat--32-16.jpg",
+          "rotation": [
+            180,
+            0,
+            0
+          ],
+          "model": {
+            "id": "anysplat",
+            "label": "AnySplat",
+            "ply": "static/models/gallery/anysplat--32-16.ply",
+            "points": 250000
+          }
+        },
+        {
+          "id": "79-32",
+          "title": "Scene 79 \u00b7 32 views",
+          "detail": "AnySplat reconstruction",
+          "cover": "static/images/gallery/anysplat--79-32.jpg",
+          "rotation": [
+            180,
+            0,
+            0
+          ],
+          "model": {
+            "id": "anysplat",
+            "label": "AnySplat",
+            "ply": "static/models/gallery/anysplat--79-32.ply",
+            "points": 250000
+          }
+        },
+        {
+          "id": "4-6",
+          "title": "Scene 4 \u00b7 6 views",
+          "detail": "AnySplat reconstruction",
+          "cover": "static/images/gallery/anysplat--4-6.jpg",
+          "rotation": [
+            180,
+            0,
+            0
+          ],
+          "model": {
+            "id": "anysplat",
+            "label": "AnySplat",
+            "ply": "static/models/gallery/anysplat--4-6.ply",
+            "points": 250000
+          }
+        },
+        {
+          "id": "80-32",
+          "title": "Scene 80 \u00b7 32 views",
+          "detail": "AnySplat reconstruction",
+          "cover": "static/images/gallery/anysplat--80-32.jpg",
+          "rotation": [
+            180,
+            0,
+            0
+          ],
+          "model": {
+            "id": "anysplat",
+            "label": "AnySplat",
+            "ply": "static/models/gallery/anysplat--80-32.ply",
+            "points": 250000
+          }
+        },
+        {
+          "id": "frame8",
+          "title": "Frame 8",
+          "detail": "AnySplat reconstruction",
+          "cover": "static/images/gallery/anysplat--frame8.jpg",
+          "rotation": [
+            180,
+            0,
+            0
+          ],
+          "model": {
+            "id": "anysplat",
+            "label": "AnySplat",
+            "ply": "static/models/gallery/anysplat--frame8.ply",
+            "points": 250000
+          }
+        }
+      ]
+    }
+  ]
+}

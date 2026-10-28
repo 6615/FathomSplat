@@ -1,0 +1,130 @@
+{
+  "version": 1,
+  "scenes": [
+    {
+      "id": "16-coral-wall",
+      "title": "16 views \u00b7 Coral wall",
+      "detail": "Dense-view water-removal pair",
+      "cover": "static/images/dewatering/16-coral-wall.jpg",
+      "rotation": [
+        180,
+        0,
+        0
+      ],
+      "videos": {
+        "mediumFree": "static/videos/dewatering/16-coral-wall--medium-free.mp4",
+        "underwaterBaked": "static/videos/dewatering/16-coral-wall--underwater-baked.mp4"
+      },
+      "models": {
+        "mediumFree": {
+          "ply": "static/models/dewatering/16-coral-wall--medium-free.ply",
+          "points": 250000
+        },
+        "underwaterBaked": {
+          "ply": "static/models/dewatering/16-coral-wall--underwater-baked.ply",
+          "points": 250000
+        }
+      }
+    },
+    {
+      "id": "16-coral-bommie",
+      "title": "16 views \u00b7 Coral bommie",
+      "detail": "Dense-view water-removal pair",
+      "cover": "static/images/dewatering/16-coral-bommie.jpg",
+      "rotation": [
+        180,
+        0,
+        0
+      ],
+      "videos": {
+        "mediumFree": "static/videos/dewatering/16-coral-bommie--medium-free.mp4",
+        "underwaterBaked": "static/videos/dewatering/16-coral-bommie--underwater-baked.mp4"
+      },
+      "models": {
+        "mediumFree": {
+          "ply": "static/models/dewatering/16-coral-bommie--medium-free.ply",
+          "points": 250000
+        },
+        "underwaterBaked": {
+          "ply": "static/models/dewatering/16-coral-bommie--underwater-baked.ply",
+          "points": 250000
+        }
+      }
+    },
+    {
+      "id": "16-coral-bommie-ii",
+      "title": "16 views \u00b7 Coral bommie II",
+      "detail": "Dense-view water-removal pair",
+      "cover": "static/images/dewatering/16-coral-bommie-ii.jpg",
+      "rotation": [
+        180,
+        0,
+        0
+      ],
+      "videos": {
+        "mediumFree": "static/videos/dewatering/16-coral-bommie-ii--medium-free.mp4",
+        "underwaterBaked": "static/videos/dewatering/16-coral-bommie-ii--underwater-baked.mp4"
+      },
+      "models": {
+        "mediumFree": {
+          "ply": "static/models/dewatering/16-coral-bommie-ii--medium-free.ply",
+          "points": 250000
+        },
+        "underwaterBaked": {
+          "ply": "static/models/dewatering/16-coral-bommie-ii--underwater-baked.ply",
+          "points": 250000
+        }
+      }
+    },
+    {
+      "id": "2-squid",
+      "title": "2 views \u00b7 Squid",
+      "detail": "Sparse-view water-removal pair",
+      "cover": "static/images/dewatering/2-squid.jpg",
+      "rotation": [
+        180,
+        0,
+        0
+      ],
+      "videos": {
+        "mediumFree": "static/videos/dewatering/2-squid--medium-free.mp4",
+        "underwaterBaked": "static/videos/dewatering/2-squid--underwater-baked.mp4"
+      },
+      "models": {
+        "mediumFree": {
+          "ply": "static/models/dewatering/2-squid--medium-free.ply",
+          "points": 250000
+        },
+        "underwaterBaked": {
+          "ply": "static/models/dewatering/2-squid--underwater-baked.ply",
+          "points": 250000
+        }
+      }
+    },
+    {
+      "id": "2-reef",
+      "title": "2 views \u00b7 Reef",
+      "detail": "Sparse-view water-removal pair",
+      "cover": "static/images/dewatering/2-reef.jpg",
+      "rotation": [
+        180,
+        0,
+        0
+      ],
+      "videos": {
+        "mediumFree": "static/videos/dewatering/2-reef--medium-free.mp4",
+        "underwaterBaked": "static/videos/dewatering/2-reef--underwater-baked.mp4"
+      },
+      "models": {
+        "mediumFree": {
+          "ply": "static/models/dewatering/2-reef--medium-free.ply",
+          "points": 250000
+        },
+        "underwaterBaked": {
+          "ply": "static/models/dewatering/2-reef--underwater-baked.ply",
+          "points": 250000
+        }
+      }
+    }
+  ]
+}
